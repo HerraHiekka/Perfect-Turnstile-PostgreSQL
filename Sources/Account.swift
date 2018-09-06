@@ -15,8 +15,14 @@ import StORM
 open class AuthAccount : PostgresStORM, Account {
 
 	/// The User account's Unique ID
-	public var uniqueID: String = ""
+    	public var id: UUID = UUID()
 
+    	public var uniqueID: String {
+	get {
+	        return id.uuidString
+	    }
+    	}
+	
 	/// The username with which the user will log in with
 	public var username: String = ""
 
@@ -24,10 +30,10 @@ open class AuthAccount : PostgresStORM, Account {
 	public var password: String = ""
 
 	/// Stored Facebook ID when logging in with Facebook
-	public var facebookID: String = ""
+	//public var facebookID: String = ""
 
 	/// Stored Google ID when logging in with Google
-	public var googleID: String = ""
+	//public var googleID: String = ""
 
 	/// Optional first name
 	public var firstname: String = ""
@@ -47,17 +53,18 @@ open class AuthAccount : PostgresStORM, Account {
 	}
 
 	/// Shortcut to store the id
-	public func id(_ newid: String) {
-		uniqueID = newid
+	public func id(_ newid: UUID) {
+		id = newid
 	}
 
 	/// Set incoming data from database to object
 	override open func to(_ this: StORMRow) {
-		uniqueID	= this.data["uniqueid"] as? String ?? ""
+		let idString    = this.data["id"] as? String ?? ""
+        	id              = UUID(uuidString: idString) ?? UUID()
 		username	= this.data["username"] as? String ?? ""
 		password	= this.data["password"] as? String ?? ""
-		facebookID	= this.data["facebookid"] as? String ?? ""
-		googleID	= this.data["googleid"] as? String ?? ""
+		//facebookID	= this.data["facebookid"] as? String ?? ""
+		//googleID	= this.data["googleid"] as? String ?? ""
 		firstname	= this.data["firstname"] as? String ?? ""
 		lastname	= this.data["lastname"] as? String ?? ""
 		email		= this.data["email"] as? String ?? ""
