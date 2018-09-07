@@ -6,6 +6,7 @@
 //
 //
 
+import Foundation
 import Turnstile
 import PostgresStORM
 import TurnstileCrypto
@@ -86,7 +87,7 @@ open class AuthRealm : Realm {
 
 		let account = AuthAccount()
 		let newAccount = AuthAccount()
-		newAccount.id(String(random.secureToken))
+		newAccount.id(UUID())
 
 		switch credentials {
 		case let credentials as UsernamePassword:
