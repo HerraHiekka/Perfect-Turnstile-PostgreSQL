@@ -6,6 +6,7 @@
 //
 //
 
+import Foundation
 import Turnstile
 import TurnstileCrypto
 import PostgresStORM
