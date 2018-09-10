@@ -33,9 +33,22 @@ public class AuthHandlersJSON {
 	open static func loginHandlerPOST(request: HTTPRequest, _ response: HTTPResponse) {
 		response.setHeader(.contentType, value: "application/json")
 
-		var resp = [String: String]()
-		guard let username = request.param(name: "username"),
-			let password = request.param(name: "password") else {
+        	var resp = [String: String]()
+        
+        	guard let postBody = (try? request.postBodyString?.jsonDecode()) as? [String:String] else {
+            		resp["error"] = "Malformed Login Request"
+            		do {
+                		try response.setBody(json: resp)
+            		} catch {
+                		print(error)
+            		}
+            		response.completed()
+            		return
+        	}
+        
+        
+		guard let username = postBody["username"],
+			let password = postBody["password"] else {
 				resp["error"] = "Missing username or password"
 				do {
 					try response.setBody(json: resp)
