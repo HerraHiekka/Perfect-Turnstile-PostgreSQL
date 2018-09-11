@@ -65,9 +65,9 @@ public class AuthHandlersJSON {
 
 			let token = tokenStore?.new((request.user.authDetails?.account.uniqueID)!)
 
-			resp["error"] = "none"
 			resp["login"] = "ok"
 			resp["token"] = token
+            		resp["userID"] = request.user.authDetails?.account.uniqueID
 		} catch {
 			resp["error"] = "Invalid username or password"
 		}
